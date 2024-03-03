@@ -1,5 +1,6 @@
+import { SVGProps } from "react";
 
-function Logo() {
+function Logo(props:SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,6 +8,7 @@ function Logo() {
       height="48"
       fill="none"
       viewBox="0 0 126 48"
+      {...props}
     >
       <path
         fill="#4EA8DE"
