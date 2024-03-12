@@ -13,6 +13,7 @@ const taskValidationSchema = z.object({
 type taskFormData = z.infer<typeof taskValidationSchema>
 
 const CreateTaskForm = () => {
+	let clearErrorsId: ReturnType<typeof setTimeout>
 	const { createNewTodo, todos } = useContext(TodoContext)
 	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const {
@@ -20,20 +21,22 @@ const CreateTaskForm = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
+		clearErrors,
 	} = useForm<taskFormData>({
 		resolver: zodResolver(taskValidationSchema),
 		defaultValues: {
 			title: "",
 		},
 	})
-	useEffect(() => {
-		if (errors.title?.message) setErrorMessage(errors.title.message)
-	}, [errors.title])
+	// useEffect(() => {
+	// 	if (errors.title?.message) setErrorMessage(errors.title.message)
+	// }, [errors.title])
 
 	function handleCreateNewTask(data: taskFormData) {
 		const title = data.title
 		createNewTodo({ title })
-		setErrorMessage(null)
+		// clearErrors()
+		// setErrorMessage(null)
 		reset()
 	}
 
@@ -47,7 +50,14 @@ const CreateTaskForm = () => {
 					placeholder="Adicione uma nova tarefa"
 					type="text"
 					className="bg-gray-500  flex-1 p-4 focus:outline focus:outline-purple placeholder:text-gray-300 text-gray-100"
-					onFocus={() => setErrorMessage(null)}
+					onFocus={() => {
+						if (clearErrorsId) {
+							clearTimeout(clearErrorsId)
+						}
+						clearErrorsId = setTimeout(() => {
+							clearErrors()
+						}, 2000)
+					}}
 					{...register("title")}
 				/>
 
@@ -58,7 +68,7 @@ const CreateTaskForm = () => {
 					Criar <PlusCircle color="#fff" />
 				</button>
 			</form>
-			<span className="text-danger h-8 mt-1">{errorMessage}</span>
+			<span className="text-danger h-8 mt-1">{errors.title?.message}</span>
 		</>
 	)
 }
