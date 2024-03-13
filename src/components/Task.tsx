@@ -28,7 +28,11 @@ export const Task = ({ title, id, isCompleted }: TaskProps) => {
 	return (
 		<div className="flex flex-wrap bg-gray-500 p-4 gap-3 rounded-md hover:cursor-grab mb-3 ">
 			{isEditingTask ? (
-				<EditTask handleIsEditingTask={handleIsEditingTask} todoId={id} />
+				<EditTask
+					handleIsEditingTask={handleIsEditingTask}
+					taskTitle={title}
+					todoId={id}
+				/>
 			) : (
 				<>
 					<Checkbox

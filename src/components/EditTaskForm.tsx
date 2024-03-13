@@ -9,6 +9,7 @@ import { TodoContext } from "@/context/TodoContext"
 interface EditTaskProps {
 	handleIsEditingTask(): void
 	todoId: string
+	taskTitle: string
 }
 
 const newTaskTitleValidationSchema = z.object({
@@ -17,15 +18,17 @@ const newTaskTitleValidationSchema = z.object({
 
 type newTaskTitleType = z.infer<typeof newTaskTitleValidationSchema>
 
-const EditTask = ({ handleIsEditingTask, todoId }: EditTaskProps) => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<newTaskTitleType>({
+const EditTask = ({
+	handleIsEditingTask,
+	todoId,
+	taskTitle,
+}: EditTaskProps) => {
+	const { register, handleSubmit } = useForm<newTaskTitleType>({
 		resolver: zodResolver(newTaskTitleValidationSchema),
+		defaultValues: {
+			newTaskTitle: `${taskTitle}`,
+		},
 	})
-
 	const { updateTodoTitle } = useContext(TodoContext)
 
 	function handleNewTitleSubmit(data: newTaskTitleType) {
@@ -38,13 +41,11 @@ const EditTask = ({ handleIsEditingTask, todoId }: EditTaskProps) => {
 			<div className="flex flex-wrap flex-1 justify-between">
 				<Input
 					{...register("newTaskTitle")}
-					onBlur={handleIsEditingTask}
 					className="bg-gray-400 max-w-56 sm:max-w-96  p-4 focus:outline focus:outline-purple placeholder:text-gray-300 text-gray-100 w-96"
 				/>
 				<div className="flex">
 					<Check
 						onClick={handleSubmit(handleNewTitleSubmit)}
-						type="submit"
 						className="self-center text-green-400 hover:cursor-pointer p-1 h-10 w-10"
 					/>
 					<XCircle

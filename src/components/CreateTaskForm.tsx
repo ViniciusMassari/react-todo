@@ -1,10 +1,13 @@
-import { z } from "zod"
 import { Input } from "./ui/input"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, Mic } from "lucide-react"
+
+import { type FormEvent, useContext, useState } from "react"
+import { TodoContext } from "@/context/TodoContext"
+
+import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useContext } from "react"
-import { TodoContext } from "@/context/TodoContext"
+import SpeechRecognitionComponent from "./SpeechRecognitionComponent"
 
 const taskValidationSchema = z.object({
 	title: z.string().min(1, "Title needs to have 1 character at least").trim(),
@@ -14,7 +17,12 @@ type taskFormData = z.infer<typeof taskValidationSchema>
 
 const CreateTaskForm = () => {
 	let clearErrorsId: ReturnType<typeof setTimeout>
-	const { createNewTodo, todos } = useContext(TodoContext)
+
+	const [transcript, setTranscript] = useState("")
+	function handleSetTranscript(speech: string) {
+		setTranscript(speech)
+	}
+	const { createNewTodo } = useContext(TodoContext)
 	const {
 		register,
 		handleSubmit,
@@ -34,15 +42,27 @@ const CreateTaskForm = () => {
 		reset()
 	}
 
+	function handleSendTranscript(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+		createNewTodo({ title: transcript })
+		handleSetTranscript("")
+		window.location.reload()
+	}
+
 	return (
 		<>
 			<form
 				className="flex w-full flex-1 justify-center items-center gap-3 max-w-[638px] -mt-6 2xs:flex-col"
-				onSubmit={handleSubmit(handleCreateNewTask)}
+				onSubmit={
+					transcript !== ""
+						? (e) => handleSendTranscript(e)
+						: handleSubmit(handleCreateNewTask)
+				}
 			>
 				<Input
 					placeholder="Adicione uma nova tarefa"
 					type="text"
+					value={transcript !== "" ? transcript : undefined}
 					className="bg-gray-500  flex-1 p-4 focus:outline focus:outline-purple placeholder:text-gray-300 text-gray-100"
 					onFocus={() => {
 						if (clearErrorsId) {
@@ -61,6 +81,7 @@ const CreateTaskForm = () => {
 				>
 					Criar <PlusCircle color="#fff" />
 				</button>
+				<SpeechRecognitionComponent handleSetTranscript={handleSetTranscript} />
 			</form>
 			<span className="text-danger h-8 mt-1">{errors.title?.message}</span>
 		</>
