@@ -34,11 +34,12 @@ export function markTodoAsCompleted(todoId:string){
     }
 }
 
-export function updateTodo(todoId:string){
+export function updateTodo(todoId:string, newTitle:string){
 
     return{
         type: ActionTypes.UPDATE_TODO,
         payload:{
+            newTitle,
             todoId
         }
     }

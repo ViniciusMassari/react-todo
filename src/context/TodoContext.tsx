@@ -1,4 +1,9 @@
-import { addNewTodo, deleteTodo } from "@/reducer/action"
+import {
+	addNewTodo,
+	deleteTodo,
+	markTodoAsCompleted,
+	updateTodo,
+} from "@/reducer/action"
 import { type Todo, todoReducer } from "../reducer/reducer"
 import { type ReactNode, createContext, useReducer, useEffect } from "react"
 
@@ -6,6 +11,8 @@ interface TodoContextType {
 	todos: Todo[]
 	createNewTodo(data: TodoData): void
 	removeTodo(todoId: string): void
+	completeTodo(todoId: string): void
+	updateTodoTitle(todoId: string, newTitle: string): void
 }
 
 interface TodoData {
@@ -62,12 +69,22 @@ export function TodoContextProvider({ children }: TodosContextProviderProps) {
 		dispatch(deleteTodo(todoId))
 	}
 
+	function completeTodo(todoId: string) {
+		dispatch(markTodoAsCompleted(todoId))
+	}
+
+	function updateTodoTitle(todoId: string, newTitle: string): void {
+		dispatch(updateTodo(todoId, newTitle))
+	}
+
 	return (
 		<TodoContext.Provider
 			value={{
 				todos,
 				createNewTodo,
 				removeTodo,
+				completeTodo,
+				updateTodoTitle,
 			}}
 		>
 			{children}
