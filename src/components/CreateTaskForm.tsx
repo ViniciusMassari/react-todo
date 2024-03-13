@@ -3,7 +3,7 @@ import { Input } from "./ui/input"
 import { PlusCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
 import { TodoContext } from "@/context/TodoContext"
 
 const taskValidationSchema = z.object({
@@ -15,7 +15,6 @@ type taskFormData = z.infer<typeof taskValidationSchema>
 const CreateTaskForm = () => {
 	let clearErrorsId: ReturnType<typeof setTimeout>
 	const { createNewTodo, todos } = useContext(TodoContext)
-	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 	const {
 		register,
 		handleSubmit,
@@ -28,15 +27,10 @@ const CreateTaskForm = () => {
 			title: "",
 		},
 	})
-	// useEffect(() => {
-	// 	if (errors.title?.message) setErrorMessage(errors.title.message)
-	// }, [errors.title])
 
 	function handleCreateNewTask(data: taskFormData) {
 		const title = data.title
 		createNewTodo({ title })
-		// clearErrors()
-		// setErrorMessage(null)
 		reset()
 	}
 

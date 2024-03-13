@@ -1,15 +1,21 @@
-import React from "react"
+import { useContext, useEffect, useState } from "react"
+import { Reorder, AnimatePresence } from "framer-motion"
 import { NoTasks } from "./NoTasks"
 import { Task } from "./Task"
+import { TodoContext } from "@/context/TodoContext"
 const ToDoListContainer = () => {
-	const tasks = [
-		{
-			id: Date.now(),
-			description:
-				"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum at reprehenderit similique fuga. Fugiat officia",
-			isCompleted: false,
-		},
-	]
+	const { todos } = useContext(TodoContext)
+	const [tasks, setTasks] = useState(todos)
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: The dependencie cause framer motion reoder to dont work correctly
+	useEffect(() => {
+		localStorage.setItem(
+			"@react-todo:todos-list",
+			JSON.stringify({ todos: tasks }),
+		)
+		setTasks(todos)
+	}, [todos])
+
 	const quantityStyles =
 		"bg-gray-400 rounded-full text-white text-sm gap-2 pr-2 pl-2"
 
@@ -28,16 +34,38 @@ const ToDoListContainer = () => {
 			{tasks.length === 0 ? (
 				<NoTasks />
 			) : (
-				tasks.map((task) => {
-					return (
-						<Task
-							key={task.id}
-							description={task.description}
-							isCompleted={task.isCompleted}
-							id={task.id}
-						/>
-					)
-				})
+				<Reorder.Group
+					translate="no"
+					axis="y"
+					style={{ overflowY: "scroll" }}
+					values={tasks}
+					onReorder={(newOrder) => {
+						localStorage.setItem(
+							"@react-todo:todos-list",
+							JSON.stringify({ todos: newOrder }),
+						)
+						setTasks(newOrder)
+						return newOrder
+					}}
+				>
+					<AnimatePresence>
+						{tasks.map((task) => (
+							<Reorder.Item
+								key={task.id}
+								value={task}
+								whileDrag={{
+									opacity: 0.5,
+								}}
+							>
+								<Task
+									title={task.title}
+									isCompleted={task.isCompleted}
+									id={task.id}
+								/>
+							</Reorder.Item>
+						))}
+					</AnimatePresence>
+				</Reorder.Group>
 			)}
 		</section>
 	)

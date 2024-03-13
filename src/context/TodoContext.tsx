@@ -22,8 +22,6 @@ export function TodoContextProvider({ children }: TodosContextProviderProps) {
 		// @ts-ignore
 		{ todos: [] },
 		(initialState) => {
-			console.log("LOGO INITIAL STATE")
-
 			const storedTodosJson = localStorage.getItem("@react-todo:todos-list")
 			if (storedTodosJson !== null) {
 				return JSON.parse(storedTodosJson)
@@ -41,7 +39,10 @@ export function TodoContextProvider({ children }: TodosContextProviderProps) {
 	const { todos } = todosState
 
 	useEffect(() => {
-		localStorage.setItem("@react-todo:todos-list", JSON.stringify({ todos }))
+		localStorage.setItem(
+			"@react-todo:todos-list",
+			JSON.stringify({ todos: todos }),
+		)
 	}, [todos])
 
 	function createNewTodo({ title }: TodoData) {
