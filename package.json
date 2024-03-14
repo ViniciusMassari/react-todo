@@ -1,43 +1,46 @@
 {
-  "name": "todolist",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "check": "npx @biomejs/biome format ./src",
-    "lint": "npx @biomejs/biome format --write ./src",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
-    "@radix-ui/react-checkbox": "^1.0.4",
-    "@radix-ui/react-toast": "^1.1.5",
-    "@radix-ui/react-tooltip": "^1.0.7",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "framer-motion": "^11.0.12",
-    "immer": "^10.0.4",
-    "lucide-react": "^0.340.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.51.0",
-    "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.6.1",
-    "@types/node": "^20.11.20",
-    "@types/react": "^18.2.56",
-    "@types/react-dom": "^18.2.19",
-    "@types/react-speech-recognition": "^3.9.5",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.4"
-  }
+	"homepage": "ViniciusMassari.github.io/react-todo",
+	"name": "todolist",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"check": "npx @biomejs/biome format ./src",
+		"lint": "npx @biomejs/biome format --write ./src",
+		"preview": "vite preview",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d dist"
+	},
+	"dependencies": {
+		"@hookform/resolvers": "^3.3.4",
+		"@radix-ui/react-checkbox": "^1.0.4",
+		"@radix-ui/react-toast": "^1.1.5",
+		"@radix-ui/react-tooltip": "^1.0.7",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.1.0",
+		"framer-motion": "^11.0.12",
+		"immer": "^10.0.4",
+		"lucide-react": "^0.340.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.51.0",
+		"tailwind-merge": "^2.2.1",
+		"tailwindcss-animate": "^1.0.7",
+		"zod": "^3.22.4"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.6.1",
+		"@types/node": "^20.11.20",
+		"@types/react": "^18.2.56",
+		"@types/react-dom": "^18.2.19",
+		"@vitejs/plugin-react": "^4.2.1",
+		"autoprefixer": "^10.4.17",
+		"gh-pages": "^6.1.1",
+		"postcss": "^8.4.35",
+		"tailwindcss": "^3.4.1",
+		"typescript": "^5.2.2",
+		"vite": "^5.1.4"
+	}
 }

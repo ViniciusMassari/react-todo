@@ -1,8 +1,9 @@
-import { Check, Pencil, Trash2 } from "lucide-react"
+import { Pencil, Trash2 } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useContext, useState } from "react"
 import { TodoContext } from "@/context/TodoContext"
 import EditTask from "./EditTaskForm"
+import Tooltip from "./Tooltip"
 
 interface TaskProps {
 	id: string
@@ -49,15 +50,20 @@ export const Task = ({ title, id, isCompleted }: TaskProps) => {
 							{title}
 						</p>
 					</div>
-					<Trash2
-						onClick={handleDeleteTodo}
-						className="text-gray-300 w-7 h-7 p-1 bg-transparent rounded-md  hover:text-danger hover:bg-gray-400 transition cursor-pointer"
-					/>
-					{!isCompleted && (
-						<Pencil
-							onClick={handleIsEditingTask}
-							className="text-gray-300 w-7 h-7 p-1 bg-transparent rounded-md  hover:text-gray-100 hover:bg-gray-400 transition cursor-pointer"
+					<Tooltip label="Excluir Task">
+						<Trash2
+							onClick={handleDeleteTodo}
+							className="text-gray-300 w-7 h-7 p-1 bg-transparent rounded-md  hover:text-danger hover:bg-gray-400 transition cursor-pointer"
 						/>
+					</Tooltip>
+
+					{!isCompleted && (
+						<Tooltip label="Editar Task">
+							<Pencil
+								onClick={handleIsEditingTask}
+								className="text-gray-300 w-7 h-7 p-1 bg-transparent rounded-md  hover:text-gray-100 hover:bg-gray-400 transition cursor-pointer"
+							/>
+						</Tooltip>
 					)}
 				</>
 			)}

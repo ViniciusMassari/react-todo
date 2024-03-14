@@ -8,6 +8,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import SpeechRecognitionComponent from "./SpeechRecognitionComponent"
+import Tooltip from "./Tooltip"
 
 const taskValidationSchema = z.object({
 	title: z.string().min(1, "Title needs to have 1 character at least").trim(),
@@ -74,14 +75,20 @@ const CreateTaskForm = () => {
 					}}
 					{...register("title")}
 				/>
+				<Tooltip label="Criar Task">
+					<button
+						type="submit"
+						className="text-white flex bg-blue-dark p-3 gap-2 rounded-lg hover:bg-blue transition"
+					>
+						Criar <PlusCircle color="#fff" />
+					</button>
+				</Tooltip>
 
-				<button
-					type="submit"
-					className="text-white flex bg-blue-dark p-3 gap-2 rounded-lg hover:bg-blue transition"
-				>
-					Criar <PlusCircle color="#fff" />
-				</button>
-				<SpeechRecognitionComponent handleSetTranscript={handleSetTranscript} />
+				<Tooltip label="Comando de voz">
+					<SpeechRecognitionComponent
+						handleSetTranscript={handleSetTranscript}
+					/>
+				</Tooltip>
 			</form>
 			<span className="text-danger h-8 mt-1">{errors.title?.message}</span>
 		</>
